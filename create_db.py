@@ -1,3 +1,10 @@
+"""
+create_db.py
+--------------
+Run this script once to create the SQLite database and all tables.
+Tables are created from the models defined in models.py.
+"""
+
 from flask import Flask
 from models import db
 
