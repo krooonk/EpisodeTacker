@@ -3,3 +3,5 @@ instance/
 *.db
 __pycache__/
 .idea/
+posters/
+*.json
