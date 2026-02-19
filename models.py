@@ -65,6 +65,7 @@ class Series(db.Model):
     description=db.Column(db.Text)
     origin_country=db.Column(db.String)
     first_air_date=db.Column(db.String)
+    last_air_date=db.Column(db.String)
     actors=db.Column(db.String)
     creators=db.Column(db.String)
     tmdb_vote_average=db.Column(db.Float)
