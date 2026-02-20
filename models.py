@@ -72,7 +72,7 @@ class Series(db.Model):
     num_seasons=db.Column(db.SmallInteger)
     num_eps=db.Column(db.Integer)
     poster_filename=db.Column(db.String)
-    status=db.Column(db.String,default="Ended")
+    status=db.Column(db.String)
     source=db.Column(db.String,default="initial_scrape")
     last_synced_at=db.Column(db.DateTime,default=lambda:datetime.now(timezone.utc))
     genres=db.relationship("Genre",secondary=series_genre,backref="series")
