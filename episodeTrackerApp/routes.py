@@ -1,5 +1,6 @@
 from episodeTrackerApp import app
-from flask import render_template
+from flask import render_template,request
+from models import Series
 
 @app.route("/")
 @app.route("/home")
@@ -8,4 +9,6 @@ def home_page():
 
 @app.route("/series")
 def series_page():
-    return render_template("series.html")
+    page=request.args.get("page",1,type=int)
+    series=Series.query.paginate(page=page,per_page=24)
+    return render_template("series.html",series=series)
