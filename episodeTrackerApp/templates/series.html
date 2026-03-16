@@ -1,1 +1,57 @@
 {% extends "base.html" %}
+{% block content %}
+<div class="container">
+   <div class="row">
+      {% for show in series.items %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+         <div class="card" >
+            <img src="{{ url_for('static', filename='posters/' + show.poster_filename) }}"  style="height:450px">
+            <div class="card-body">
+               <h6 class="card-title text-center">{{show.title}}</h6>
+            </div>
+         </div>
+      </div>
+      {% endfor %}
+   </div>
+   <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+         {% if series.pages==1 %}
+         <li class="page-item active">
+            <a class="page-link" href="{{ url_for('series_page', page=series.page)}}" aria-current="page">{{series.page}}</a>
+         </li>
+         {%endif%}
+         {% if series.pages>1%}
+         {% if series.page==1 %}
+         <li class="page-item disabled"><a class="page-link">Prev</a></li>
+         <li class="page-item active">
+            <a class="page-link" href="{{ url_for('series_page', page=series.page)}}" aria-current="page">{{series.page}}</a>
+         </li>
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.next_num) }}">{{series.next_num}}</a></li>
+         {% if series.page+2 <= series.pages %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.page+2) }}">{{series.page+2}}</a></li>
+         {% endif %}
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.next_num) }}">Next</a></li>
+         {% elif series.page==series.pages %}
+         <li class="page-item"><a href="{{ url_for('series_page', page=series.prev_num) }}" class="page-link">Prev</a></li>
+          {% if series.page-2 >= 1 %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.page-2) }}">{{series.page-2}}</a></li>
+         {% endif %}
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.prev_num) }}">{{series.prev_num}}</a></li>
+         <li class="page-item active">
+            <a class="page-link" href="{{ url_for('series_page', page=series.page)}}" aria-current="page">{{series.page}}</a>
+         </li>
+         <li class="page-item disabled"><a class="page-link">Next</a></li>
+         {%else%}
+         <li class="page-item"><a href="{{ url_for('series_page', page=series.prev_num) }}" class="page-link">Prev</a></li>
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.prev_num) }}">{{series.prev_num}}</a></li>
+         <li class="page-item active">
+            <a class="page-link" href="{{ url_for('series_page', page=series.page)}}" aria-current="page">{{series.page}}</a>
+         </li>
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.next_num) }}">{{series.next_num}}</a></li>
+         <li class="page-item"><a class="page-link" href="{{ url_for('series_page', page=series.next_num) }}">Next</a></li>
+         {%endif%}
+         {%endif%}
+      </ul>
+   </nav>
+</div>
+{% endblock %}
