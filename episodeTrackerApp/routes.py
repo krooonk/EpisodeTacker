@@ -17,3 +17,8 @@ def series_page():
     page=request.args.get("page",1,type=int)
     series=query.paginate(page=page,per_page=24)
     return render_template("series.html",series=series,genres=genres,selected_genres=selected_genres)
+
+@app.route("/series/<int:id>")
+def series_detailed_page(id):
+    series=Series.query.get_or_404(id)
+    return render_template("series_detailed.html",series=series)
