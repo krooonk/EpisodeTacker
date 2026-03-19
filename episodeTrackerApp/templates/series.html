@@ -15,12 +15,14 @@
    <div class="row">
       {% for show in series.items %}
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+         <a href="{{url_for('series_detailed_page',id=show.id)}}" style="text-decoration:none">
          <div class="card" >
             <img src="{{ url_for('static', filename='posters/' + show.poster_filename) }}"  style="height:450px">
             <div class="card-body">
                <h6 class="card-title text-center">{{show.title}}</h6>
             </div>
          </div>
+         </a>
       </div>
       {% endfor %}
     </div>
