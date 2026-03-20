@@ -1,1 +1,61 @@
 {% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+<div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card" style="transform: none !important; box-shadow:none !important;">
+        <img src="{{ url_for('static', filename='posters/' + series.poster_filename) }}" style="height:600px">
+    </div>
+    </div>
+    <div class="col-md-8">
+        <h3>{{series.title}}</h3>
+        {% if series.description %}
+          <p class="text-muted">{{series.description}}</p>
+        {% endif %}
+        <dl class="row">
+
+    {% if series.origin_country %}
+    <dt class="col-sm-3">Country of Origin</dt>
+    <dd class="col-sm-9">{{series.origin_country |format_country}}</dd>
+    {% endif %}
+
+    {% if series.genres %}
+      <dt class="col-sm-3">Genres</dt>
+      <dd class="col-sm-9">{{ series.genres | map(attribute='name') | join(', ') | replace('&', 'and')}}</dd>
+    {% endif %}
+
+    {% if series.num_seasons %}
+      <dt class="col-sm-3">Seasons</dt>
+      <dd class="col-sm-9">{{series.num_seasons}}</dd>
+    {% endif %}
+
+    {% if series.first_air_date %}
+      <dt class="col-sm-3">First aired</dt>
+      <dd class="col-sm-9">{{series.first_air_date | format_date}}</dd>
+    {% endif %}
+
+    {% if series.last_air_date %}
+      <dt class="col-sm-3">Last aired</dt>
+      <dd class="col-sm-9">{{series.last_air_date | format_date}}</dd>
+    {% endif %}
+
+    {% if series.creators %}
+      <dt class="col-sm-3">Creators</dt>
+      <dd class="col-sm-9">{{series.creators}}</dd>
+    {% endif %}
+
+    {% if series.actors %}
+      <dt class="col-sm-3">Actors</dt>
+      <dd class="col-sm-9">{{series.actors}}</dd>
+    {% endif %}
+
+    {% if series.status %}
+     <dt class="col-sm-3">Status</dt>
+     <dd class="col-sm-9">{{series.status}}</dd>
+    {% endif %}
+</dl>
+    </div>
+</div>
+</div>
+{%endblock%}
