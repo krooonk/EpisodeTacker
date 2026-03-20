@@ -15,8 +15,17 @@ def series_page():
     if selected_genres:
         query=query.filter(Series.genres.any(Genre.id.in_(selected_genres)))
     page=request.args.get("page",1,type=int)
+    sorting=request.args.get("sort","rating")
+    if sorting=="title":
+        query=query.order_by(Series.title.asc())
+    elif sorting=="most_episodes":
+        query=query.order_by(Series.num_eps.desc())
+    elif sorting=="fewest_episodes":
+        query=query.order_by(Series.num_eps.asc())
+    else:
+        query=query.order_by(Series.tmdb_vote_average.desc())
     series=query.paginate(page=page,per_page=24)
-    return render_template("series.html",series=series,genres=genres,selected_genres=selected_genres)
+    return render_template("series.html",series=series,genres=genres,selected_genres=selected_genres,sorting=sorting)
 
 @app.route("/series/<int:id>")
 def series_detailed_page(id):
