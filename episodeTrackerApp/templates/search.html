@@ -3,9 +3,15 @@
 {% block content %}
 <div class="container">
 {% if series and series.items%}
+    {%if series.total>1%}
     <div class="mt-5">
-        <p class="text-muted">Here are the search results:</p>
+        <p class="text-muted">There are {{series.total}} results for "{{q}}":</p>
       </div>
+    {%else%}
+    <div class="mt-5">
+        <p class="text-muted">There is {{series.total}} result for "{{q}}":</p>
+      </div>
+    {%endif%}
    <div class="row">
       {% for show in series.items %}
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
