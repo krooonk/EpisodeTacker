@@ -31,3 +31,15 @@ def series_page():
 def series_detailed_page(id):
     series=Series.query.get_or_404(id)
     return render_template("series_detailed.html",series=series)
+
+@app.route("/search")
+def search_page():
+    q=request.args.get("q", "")
+    page=request.args.get("page", 1, type=int)
+    if not q:
+        series=[]
+    else:
+        query=Series.query.filter(Series.title.ilike(f"{q}%") | Series.title.ilike(f"% {q}%"))
+        series=query.paginate(page=page, per_page=24)
+
+    return render_template("search.html",series=series,q=q)
