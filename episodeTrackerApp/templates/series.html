@@ -7,7 +7,7 @@
             <div>
                 <select name="genre" multiple class="form-select form-select-sm">
                     {% for genre in genres %}
-                    <option value="{{ genre.id }}" {% if genre.id in selected_genres %}selected{% endif %}>{{ genre.name }}</option>
+                    <option value="{{ genre.id }}" {% if genre.id in selected_genres %}selected{% endif %}>{{ genre.name | replace('&', 'and')}}</option>
                     {% endfor %}
                 </select>
             </div>
