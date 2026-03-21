@@ -9,5 +9,6 @@
 - [x] Phase 1 : Data ingestion and database setup (515 shows, 16 genres)
 - [ ] Phase 2 : Flask web app 
 - [ ] Phase 3 : Hybrid recommender 
-- [ ] Phase 4 : RAG chatbot 
-- [ ] Phase 5 : Dynamic series adding
+- [ ] Phase 4 : Semantic search
+- [ ] Phase 5 : RAG chatbot 
+- [ ] Phase 6 : Dynamic series adding
