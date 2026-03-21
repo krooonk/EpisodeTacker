@@ -1,8 +1,11 @@
 from flask import Flask
-from models import db
+from models import db,User
 import os
 from datetime import datetime
 import pycountry
+from flask_login import LoginManager
+from dotenv import load_dotenv
+load_dotenv()
 
 def format_date(value):
     try:
@@ -30,5 +33,13 @@ db.init_app(app)
 
 app.jinja_env.filters["format_date"]=format_date
 app.jinja_env.filters["format_country"]=format_country
+
+login_manager=LoginManager()
+login_manager.init_app(app)
+app.config["SECRET_KEY"]=os.getenv("SECRET_KEY")
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, int(user_id))
 
 from episodeTrackerApp import routes
