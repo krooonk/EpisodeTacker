@@ -7,10 +7,11 @@ The actual creation of the tables happens when the create_db.py script is run.
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
+from flask_login import  UserMixin
 
 db=SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__="user"
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String,unique=True, nullable=False)
