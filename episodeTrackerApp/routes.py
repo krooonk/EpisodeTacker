@@ -1,6 +1,8 @@
-from episodeTrackerApp import app
-from flask import render_template,request
-from models import Series,Genre
+from episodeTrackerApp import app,bcrypt
+from flask import render_template,request,url_for,flash,redirect
+from models import Series,Genre,User,db
+from episodeTrackerApp.forms import RegistrationForm
+from flask_login import login_user
 
 @app.route("/")
 @app.route("/home")
@@ -43,3 +45,27 @@ def search_page():
         series=query.paginate(page=page, per_page=24)
 
     return render_template("search.html",series=series,q=q)
+
+@app.route("/register",methods=["POST","GET"])
+def register_page():
+    form=RegistrationForm(request.form)
+    if request.method=="POST" and form.validate():
+        new_user=User(
+            username=form.username.data,
+            email=form.email.data,
+            password_hash=bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        flash("Account created successfully!",category="success")
+        return redirect(url_for("home_page"))
+    elif request.method=="POST":
+        if form.errors:
+            for err_msg in form.errors.values():
+                flash(f"There was an error:{err_msg}",category="danger")
+    return render_template("register.html",form=form)
+
+@app.route("/login",methods=["POST","GET"])
+def login_page():
+    pass
