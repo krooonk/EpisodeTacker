@@ -6,6 +6,7 @@ import pycountry
 from flask_login import LoginManager
 from dotenv import load_dotenv
 load_dotenv()
+from flask_bcrypt import Bcrypt
 
 def format_date(value):
     try:
@@ -28,6 +29,7 @@ def format_country(value):
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app=Flask(__name__, instance_path=os.path.join(ROOT, "instance"))
 
+app.config["SECRET_KEY"]=os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///episodetracker.db"
 db.init_app(app)
 
@@ -36,10 +38,11 @@ app.jinja_env.filters["format_country"]=format_country
 
 login_manager=LoginManager()
 login_manager.init_app(app)
-app.config["SECRET_KEY"]=os.getenv("SECRET_KEY")
 
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
+
+bcrypt=Bcrypt(app)
 
 from episodeTrackerApp import routes
