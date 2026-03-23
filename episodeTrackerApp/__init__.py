@@ -27,7 +27,7 @@ def format_country(value):
         return value
 
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-app=Flask(__name__, instance_path=os.path.join(ROOT, "instance"))
+app=Flask(__name__, instance_path=os.path.join(ROOT,"instance"))
 
 app.config["SECRET_KEY"]=os.getenv("SECRET_KEY")
 app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(days=10)
