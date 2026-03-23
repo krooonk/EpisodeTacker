@@ -1,4 +1,4 @@
-from flask import Flask,session
+from flask import Flask
 from models import db,User
 import os
 from datetime import datetime,timedelta
@@ -7,6 +7,8 @@ from flask_login import LoginManager
 from dotenv import load_dotenv
 load_dotenv()
 from flask_bcrypt import Bcrypt
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 def format_date(value):
     try:
@@ -45,5 +47,7 @@ def load_user(user_id):
     return db.session.get(User, int(user_id))
 
 bcrypt=Bcrypt(app)
+
+limiter=Limiter(get_remote_address,app=app,default_limits=[])
 
 from episodeTrackerApp import routes
