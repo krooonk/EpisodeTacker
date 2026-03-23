@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask,session
 from models import db,User
 import os
-from datetime import datetime
+from datetime import datetime,timedelta
 import pycountry
 from flask_login import LoginManager
 from dotenv import load_dotenv
@@ -30,6 +30,7 @@ ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app=Flask(__name__, instance_path=os.path.join(ROOT, "instance"))
 
 app.config["SECRET_KEY"]=os.getenv("SECRET_KEY")
+app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(days=10)
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///episodetracker.db"
 db.init_app(app)
 
