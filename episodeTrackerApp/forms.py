@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField
+from wtforms import StringField,PasswordField,BooleanField
 from wtforms.validators import Length,DataRequired,Email,EqualTo,ValidationError
 from models import User
 
 class RegistrationForm(FlaskForm):
-    username = StringField("Username", validators=[Length(3, 25), DataRequired()])
-    email = StringField("Email", validators=[Email(), DataRequired()])
-    password = PasswordField("Password", validators=[Length(min=8), DataRequired()])
-    confirm_password = PasswordField("Repeat Password",
+    username=StringField("Username", validators=[Length(3, 25), DataRequired()])
+    email=StringField("Email", validators=[Email(), DataRequired()])
+    password=PasswordField("Password", validators=[Length(min=8), DataRequired()])
+    confirm_password=PasswordField("Repeat Password",
                                      validators=[DataRequired(),
                                                  EqualTo("password", message="Passwords must match.")])
 
@@ -18,3 +18,8 @@ class RegistrationForm(FlaskForm):
     def validate_email(self,email_to_be_checked):
         if User.query.filter_by(email=email_to_be_checked.data).first():
             raise ValidationError("This email address already exists. Please try a different one.")
+
+class LoginForm(FlaskForm):
+    username=StringField("Username",validators=[DataRequired()])
+    password=PasswordField("Password",validators=[DataRequired()])
+    remember_me=BooleanField("Remember me",default=False)
