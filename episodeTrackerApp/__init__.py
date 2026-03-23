@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,flash,redirect
 from models import db,User
 import os
 from datetime import datetime,timedelta
@@ -49,5 +49,11 @@ def load_user(user_id):
 bcrypt=Bcrypt(app)
 
 limiter=Limiter(get_remote_address,app=app,default_limits=[])
+
+#for too many requests
+@app.errorhandler(429)
+def rate_limit_handler(e):
+    flash("Too many login attempts. Please try later.",category="danger")
+    return redirect("/")
 
 from episodeTrackerApp import routes
