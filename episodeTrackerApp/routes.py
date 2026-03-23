@@ -2,7 +2,7 @@ from episodeTrackerApp import app,bcrypt,limiter
 from flask import render_template,request,url_for,flash,redirect,session
 from models import Series,Genre,User,db
 from episodeTrackerApp.forms import RegistrationForm,LoginForm
-from flask_login import login_user
+from flask_login import login_user,logout_user
 
 @app.route("/")
 @app.route("/home")
@@ -83,3 +83,9 @@ def login_page():
         else:
             flash("User and password do not match. Please try again.",category="danger")
     return render_template("login.html", form=form)
+
+@app.route("/logout")
+def logout_page():
+    logout_user()
+    flash("You have logged out!",category="info")
+    return redirect(url_for("home_page"))
