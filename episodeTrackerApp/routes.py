@@ -1,4 +1,4 @@
-from episodeTrackerApp import app,bcrypt
+from episodeTrackerApp import app,bcrypt,limiter
 from flask import render_template,request,url_for,flash,redirect,session
 from models import Series,Genre,User,db
 from episodeTrackerApp.forms import RegistrationForm,LoginForm
@@ -67,6 +67,7 @@ def register_page():
     return render_template("register.html",form=form)
 
 @app.route("/login",methods=["POST","GET"])
+@limiter.limit("5 per minute;20 per hour;50 per day")
 def login_page():
     form=LoginForm(request.form)
     if request.method=="POST" and form.validate():
