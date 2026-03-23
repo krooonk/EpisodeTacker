@@ -1,7 +1,7 @@
 from episodeTrackerApp import app,bcrypt
-from flask import render_template,request,url_for,flash,redirect
+from flask import render_template,request,url_for,flash,redirect,session
 from models import Series,Genre,User,db
-from episodeTrackerApp.forms import RegistrationForm
+from episodeTrackerApp.forms import RegistrationForm,LoginForm
 from flask_login import login_user
 
 @app.route("/")
@@ -68,4 +68,17 @@ def register_page():
 
 @app.route("/login",methods=["POST","GET"])
 def login_page():
-    pass
+    form=LoginForm(request.form)
+    if request.method=="POST" and form.validate():
+        attempted_user=User.query.filter_by(username=form.username.data).first()
+        attempted_password=False
+        if attempted_user:
+            attempted_password=bcrypt.check_password_hash(attempted_user.password_hash,form.password.data)
+        if attempted_password:
+            login_user(attempted_user,remember=form.remember_me.data)
+            session.permanent=True
+            flash(f"Hi,{attempted_user.username}!", category="success")
+            return redirect(url_for("home_page"))
+        else:
+            flash("User and password do not match. Please try again.",category="danger")
+    return render_template("login.html", form=form)
