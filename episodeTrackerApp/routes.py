@@ -62,8 +62,9 @@ def register_page():
         return redirect(url_for("home_page"))
     elif request.method=="POST":
         if form.errors:
-            for err_msg in form.errors.values():
-                flash(f"There was an error:{err_msg}",category="danger")
+            for err_msg_field in form.errors.values():
+                for err_msg in err_msg_field:
+                    flash(f"{err_msg}",category="danger")
     return render_template("register.html",form=form)
 
 @app.route("/login",methods=["POST","GET"])
